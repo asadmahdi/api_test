@@ -9,6 +9,7 @@ Below are examples for all the routes
 
 I remembered last minute that the /get/,/update-address/ etc... aren't necessary, due to the methods being 
 specified in the code, but didn't want to change them since time was running low.
+I also feel the more explicit paths are a bit safer to use.
 
 The /property endpoints (except for get-all which takes no additional parameter) take a propID at the end.
 I used 297 as an example
