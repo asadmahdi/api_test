@@ -1,8 +1,8 @@
+#Simple set up for a flask app 
+
 from flask import Flask
 
 app = Flask(__name__)
-
-#https://asad-mahdi-api.herokuapp.com/
 
 from routes import *
 

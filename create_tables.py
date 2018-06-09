@@ -2,17 +2,9 @@ import psycopg2
 import sys, os
 from flask import jsonify
 
-def exception_handler(e):
-    exc_type, exc_obj, exc_tb = sys.exc_info()
-    print(str(e))
-    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-    return jsonify({
-        'error': str(e),
-        'type' : str(exc_type),
-        'file' : str(fname),
-        'line' : str(exc_tb.tb_lineno)
-        })
-
+"""
+method to connect to db
+"""
 def create_connection():
     conn = psycopg2.connect(
     database='d92qa4905r9bsr',
@@ -23,6 +15,9 @@ def create_connection():
     )
     return conn
 
+"""
+methods for creating tables
+"""
 def create_owner_table():
     conn = create_connection()
     try:
@@ -40,7 +35,7 @@ def create_owner_table():
 
     except Exception as e:
         conn.close()
-        return str(e)
+        return 'Error : ' + str(e)
 
 def create_property_table():
     conn = create_connection()
@@ -62,9 +57,9 @@ def create_property_table():
 
     except Exception as e:
         conn.close()
-        return str(e)
+        return 'Error : ' + str(e)
     
     
 
 #create_owner_table()
-create_property_table()
+#create_property_table()

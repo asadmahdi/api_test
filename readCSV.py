@@ -2,6 +2,7 @@ import csv
 from create_tables import create_connection
 
 
+
 with open('dataFile.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     columns = next(readCSV)
@@ -12,58 +13,59 @@ with open('dataFile.csv') as csvfile:
     for row in readCSV:
         prop = []
         for item in row:
-            #print(item.strip(), end = ', ')
             prop.append(item.strip())
         owners.add(row[3])
         #print()
         property_list.append(prop)
 
     conn = create_connection()
-    #cur.execute("INSERT INTO country (name,summary,lat,lon,flag_img) VALUES (%s,%s)", (countries[i].name, countries[i].summary, countries[i].lat.countries[i].lon, countries[i].flag_img ))
-
+    
+    """
+    After writing code to read from the file and creating the tables in the db
+    Inserted owners into the owner table
     """
     try:
         cur = conn.cursor()
         for owner in owners:
             cur.execute("INSERT INTO owner (name) VALUES (%s);", (owner,))
         cur.close()
-        conn.commit()
+        #conn.commit()
         conn.close()
     except Exception as e:
         conn.close()
         print(str(e))
+
     """
+    After inserting data into owner table, 
+    get all entries from the owner table, 
+    Created a dictionary to map owner names to ids 
+    to easily be able to insert the right owner id 
+    for each property when inserting properties into the property table
+    """
+    
     owners_dict = {}
-    print(len(property_list))
-
-
     try:
         cur = conn.cursor()
         cur.execute("SELECT * FROM owner")
         for row in cur.fetchall():
 
-            #print(row)
+            #key = name, val = id 
             owners_dict[row[1]] = row[0]
 
         for prop in property_list:
             
             owner_name = prop[3]
-            #print(owner_name)
-            print(prop)
             owner_id = owners_dict.get(owner_name,None)
-            print(owner_name + ' : ' + str(owner_id))
             cur.execute("INSERT INTO property (id,geoID,legalDescription,situsAddress,ownerID) VALUES \
                 (%s,%s,%s,%s,%s);", (prop[0],prop[1],prop[2],prop[4],owner_id))
 
 
         cur.close()
-        conn.commit()
+        #conn.commit()
         conn.close()
     except Exception as e:
-        print(str(e))
         conn.close()
+        print(str(e))
         
-
     
-    #print(columns)
 
