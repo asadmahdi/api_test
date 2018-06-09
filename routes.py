@@ -96,7 +96,7 @@ def delete_property(property_id):
     
 
 
-@app.route('/property/update-address/<property_id>',  methods = ['POST'])
+@app.route('/property/update-address/<property_id>',  methods = ['PUT'])
 def update_property_address(property_id):
     """
     Update's the situs address of the specified property
@@ -157,3 +157,44 @@ def update_owner_name(owner_id):
         conn.close()
         return jsonify({'Error' : str(e)}),500
 
+@app.route('/owner/create',  methods = ['PUT'])
+def create_owner():
+    
+    
+    data = {
+
+    'name' : "New guy"
+
+    }
+
+
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO owner (name) VALUES {};".format("\"" +data['name'] + "\""))
+    cur.close()
+    #conn.commit()
+    conn.close()
+    return 'owner create!'
+
+@app.route('/property/create',  methods = ['POST'])
+def create_property():
+    
+    
+    data = {
+        'id' : 1234,
+        'geoID' : 'dummyData',
+        'legalDescription' : 'moredummyData',
+        'situsAddress' : 'evenmmoredummyData',
+        'ownerID' : 37
+
+    }
+
+
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO property (id,geoID,legalDescription,situsAddress,ownerID) VALUES \
+                (%s,%s,%s,%s,%s);", (data['id'],data['geoID'],data['legalDescription'],data['situsAddress'],data['ownerID']))
+    cur.close()
+    conn.commit()
+    conn.close()
+    return 'property create!'
