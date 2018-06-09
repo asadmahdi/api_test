@@ -83,13 +83,16 @@ def delete_property(property_id):
         return jsonify({'Error' : str(e)}),500
     try:
         cur = conn.cursor()
+        cur.execute("SELECT * FROM property WHERE id = (%s)",(property_id,))
+        row = cur.fetchone()
+        if(not row):
+            return jsonify({'Error' : 'No property for given id'})
+
         cur.execute("DELETE FROM property WHERE id = (%s)", (property_id,))
         cur.close()
         conn.commit()
         conn.close()
-        return jsonify({
-            'Status' : 'property ' + property_id + ' deleted'
-            }),202
+        return jsonify({'Status' : 'property ' + property_id + ' deleted'}),202
     except Exception as e:
         conn.close()
         return jsonify({'Error' : str(e)}),500
@@ -111,11 +114,14 @@ def update_property_address(property_id):
 
         new_address = payload.get('newAddress','')
         if(not new_address):
-            return jsonify({
-                'Error' : 'No new address provided'
-                }),400
+            return jsonify({'Error' : 'No new address provided'}),400
 
         cur = conn.cursor()
+
+        cur.execute("SELECT * FROM property WHERE id = (%s)",(property_id,))
+        row = cur.fetchone()
+        if(not row):
+            return jsonify({'Error' : 'No property for given id'})
         #Just wanted to note that it's possible to construct a query 
         #in a more dynamic way, so you can update a variable number of fields .
         #It wasn't necessary in this case so I went with the simpler way 
@@ -139,15 +145,20 @@ def update_owner_name(owner_id):
         conn = create_connection()
     except Exception as e:
         return jsonify({'Error' : str(e)}),500
+
     try:
         payload = request.get_json()
 
         new_name = payload.get('newName','')
         if(not new_name):
-            return jsonify({
-                'Error' : 'No new name provided'
-                }),400
+            return jsonify({'Error' : 'No new name provided'}),400
+
         cur = conn.cursor()
+        cur.execute("SELECT * FROM owner WHERE id = (%s)",(owner_id,))
+        row = cur.fetchone()
+        if(not row):
+            return jsonify({'Error' : 'No owner for given id'}),404
+
         cur.execute("UPDATE owner SET name = (%s) WHERE id = (%s)", (new_name,owner_id))
         cur.close()
         conn.commit()

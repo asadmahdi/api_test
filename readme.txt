@@ -1,13 +1,13 @@
 https://asad-mahdi-api.herokuapp.com/ is the base url 
 
 Below are examples for all the routes 
-/property/get/297
-/property/get-all
-/property/delete/297
-/property/update-address/297
-/owner/update-name/32
+/property/get/297 (GET)
+/property/get-all (GET)
+/property/delete/297 (DELETE)
+/property/update-address/297 (PUT)
+/owner/update-name/32 (PUT)
 
-the /property endpoints (except for get-all which takes no additional parameter) take a propID at the end.
+The /property endpoints (except for get-all which takes no additional parameter) take a propID at the end.
 I used 297 as an example
 
 The /owner/update-name/ endpoint takes an ownerID, they range from 32-62
