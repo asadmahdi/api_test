@@ -15,7 +15,6 @@ with open('dataFile.csv') as csvfile:
         for item in row:
             prop.append(item.strip())
         owners.add(row[3])
-        #print()
         property_list.append(prop)
 
     conn = create_connection()

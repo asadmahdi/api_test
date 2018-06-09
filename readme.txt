@@ -17,13 +17,13 @@ The /owner/update-name/ endpoint takes an ownerID, they range from 32-62
 example
 
 {
-	'newAddress' : 'This is a new address'
+	"newAddress" : "This is a new address"
 }
 
 /owner/update-name requires a key 'newName' in the request body 
 
 {
-	'newName' : 'This is a new name'
+	"newName" : "This is a new name"
 }
 
 
