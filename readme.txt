@@ -7,6 +7,9 @@ Below are examples for all the routes
 /property/update-address/297 (PUT)
 /owner/update-name/32 (PUT)
 
+I remembered last minute that the /get/,/update-address/ etc... aren't necessary, due to the methods being 
+specified in the code, but didn't want to change them since time was running low.
+
 The /property endpoints (except for get-all which takes no additional parameter) take a propID at the end.
 I used 297 as an example
 
