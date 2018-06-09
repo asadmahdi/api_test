@@ -130,7 +130,7 @@ def update_property_address(property_id):
         conn.close()
         return jsonify({'Error' : str(e)}),500
 
-@app.route('/owner/update-name/<owner_id>',  methods = ['POST'])
+@app.route('/owner/update-name/<owner_id>',  methods = ['PUT'])
 def update_owner_name(owner_id):
     """
     Updates the name of the specified owner
